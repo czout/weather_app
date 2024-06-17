@@ -1,4 +1,3 @@
-// lib/widgets/weather_display.dart
 import 'package:flutter/material.dart';
 import 'package:weather_app/models/weather.dart';
 

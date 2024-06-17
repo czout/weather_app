@@ -1,4 +1,3 @@
-// lib/providers/weather_provider.dart
 import 'package:flutter/material.dart';
 import 'package:weather_app/models/weather.dart';
 import 'package:weather_app/services/weather_service.dart';
