@@ -1,27 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:weather_app/pages/singup_page.dart';
+import 'package:weather_app/pages/login_page.dart';
 import 'package:weather_app/widgets/form_display.dart';
-import 'package:weather_app/pages/weather_page.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+class SignupPage extends StatelessWidget {
+  SignupPage({super.key});
 
   // Controllers
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  // Sign-In Logic
-  Future<void> userSignIn(BuildContext context) async {
-    final response = await Supabase.instance.client.auth.signInWithPassword(
+// Sign-Up Logic
+  Future<void> userSignUp(BuildContext context) async {
+    final response = await Supabase.instance.client.auth.signUp(
       email: emailController.text,
       password: passwordController.text,
     );
 
     if (response.session != null) {
+      // Show error message
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Successfully signed up!')),
+      );
+
       // Navigate to your home screen
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => WeatherPage()));
+          context, MaterialPageRoute(builder: (context) => LoginPage()));
     }
   }
 
@@ -45,7 +49,7 @@ class LoginPage extends StatelessWidget {
           const SizedBox(height: 5),
 
           Text(
-            'Welcome back, please sign in.',
+            'Fill in the fields to create an account.',
             style: TextStyle(
               color: Colors.grey[700],
               fontSize: 16,
@@ -73,7 +77,7 @@ class LoginPage extends StatelessWidget {
           const SizedBox(height: 25),
 
           GestureDetector(
-            onTap: () => userSignIn(context),
+            onTap: () => userSignUp(context),
             child: Container(
               padding: const EdgeInsets.all(25),
               margin: const EdgeInsets.symmetric(horizontal: 25),
@@ -82,7 +86,7 @@ class LoginPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15)),
               child: const Center(
                   child: Text(
-                'Sign In',
+                'Sign Up',
                 style: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
@@ -90,18 +94,6 @@ class LoginPage extends StatelessWidget {
                 ),
               )),
             ),
-          ),
-
-          // Registration Button
-          const SizedBox(height: 25),
-          TextButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SignupPage()),
-              );
-            },
-            child: const Text('Don\'t have an account? Register here'),
           )
         ])))));
   }
